@@ -177,13 +177,18 @@ class MailGun {
         });
 
         res.on('end', function() {
-          //Everything should be an object coming from Mailgun
-          data = JSON.parse(data);
-          if (res.statusCode == 200) {
-            resolve(data);
-          } else {
-            reject(data);
-          }
+	  try {
+            //Everything should be an object coming from Mailgun
+            data = JSON.parse(data);
+
+            if (res.statusCode == 200) {
+              resolve(data);
+            } else {
+              reject(data);
+            }
+	  } catch (e) {
+	    reject(e);
+	  }
         });
       });
 
